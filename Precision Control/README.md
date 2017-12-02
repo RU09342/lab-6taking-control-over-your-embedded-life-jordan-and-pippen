@@ -1,16 +1,53 @@
 # Lab 6: Precision Control
-Some applications require large amounts of voltage or current, so switching techniques must be used in order to provide the desired output. Other cases however require a finer control over the voltage or current going into them (some even require a control over resistance). So far you have looked at PWM to control the brightness of an LED, is there a way to use this to output a specified voltage or current, or even a specific waveform?
+## Mathew Philippou and Michael Lonetto
 
 ## PWM Part 2
-Since you already have the code to perform PWM, then really, the software side of this part of the lab is fairly easy. You need to design a system which can take in a PWM duty cycle over something like UART (or you could have your system read in the position of a potentiometer), and produce that signal on a GPIO. The interesting part comes in when I want the output of your system to be an Analog voltage. In this case, a PWM with a 50% duty cycle should produce roughly Vcc/2 volts. This part of the lab should be done with the MSP430F5529 and the physical circuit should be constructed of an active Low-Pass Filter.
+![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/Precision%20Control%2C%20simple%20circuit.JPG)
+**Figure 1: ** Schematic of Low Pass Filter Circuit Built on Breadboard
 
-## R2R DAC
-What if your system is noise sensitive or possibly needs more precision than just a PWM signal, you might need to look into using an actual Digital-to-Analog converter. One of the simplest DAC architectures is a R2R ladder. Using the MSP430F5529, you need to generate an 8-bit R2R ladder circuit that can produce "255" voltages between 0V and Vcc. Now how are you actually going to test this, cause I am sure you aren't going to measure 255 voltages on the DMM. You should set up your F5529 so it generates a staircase using a binary counter and then record on the oscilloscope the resulting waveform.
+![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/square1.png)
+**Figure 2: ** PWM signal Going Through LPF
+
+![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/10khz%20tri1.png)
+**Figure 3: ** 10 kHz Square Wave Throguh LPF
+
+![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/40khz%20tri1.png)
+**Figure 4: ** 20 kHz Square Wave Throguh LPF
+
+![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/100%20load1.png)
+**Figure 5: ** 60 kHz Square Wave Throguh LPF
+
+We built an integrator circuit using a simple op amp as constructed in Figure 1. We input a PWM
+square wave from the MSP430, as shown in Figure 2 above, which should output a triangle wave
+once the signal passed through the integrator. The triangle wave outputs can be seen in their
+corresponding figures above, with different input frequencies such as 10K, 20K, 40K, and 60K.
 
 ## Loading Effects
-Obviously you are going to be making this type of circuitry to drive something. This introduces the idea of loading effect, wherein your circuit will perform differently based on what is going to be attached to it. For each of these implementations, try placing a variety of resistors from 100 ohms up to see what happens to your output signal and comment on what is happening.
+![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/60khz%20tri.png)
+**Figure 6: ** 100 ohm Load 
 
-## Deliverables
-Along with what was asked in each of the parts above, for each implementation, you need to generate at least one triangle wave from your microntroller. This can be done by simply incrementing and decrementing values that are being sent to your circuit. You need to measure the output of each one of these along with taking the FFT on the scope of each one. The span on the FFT will need to go from 1kHz to about 50kHz if possible. You then need to compare the integrity of each signal by analyzing the difference in frequency components.
+![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/500k%20load2.png)
+**Figure 7: ** 500 kohm Load
 
-The README for this part is going to be mainly about the results of your measurement along with information on the implementation. You need to also talk about how you generated the triangle wave, but do not give me a dissertation on it. Since this is going to be talking about hardware, you need to place in the README a Bill Of Materials listing all hardware used as well as link to a Digikey cart which contains the parts needed in the right quantity. You do not need to include things like your F5529 or the breadboard or wires.
+We used the same circuit in Figure 1 to analyze the loading effect. However instead of using a PWM
+signal from the MSP430 we used the waveform generator. The input of the circuit was a 1V peak-to-
+peak square wave at a frequency of 40kHz. In addition we added a load to the output of our op amp to
+observe what would happen. We used loads of 100 Ohms and 500 kOhms.
+As we can see from Figure 6, with a 100 ohm load there is virtually no difference in the triangle
+signal, compared with the same signal and no load, seen in Figure 5. But as the load increased the signal began to turn
+into a sine wave. We noticed it very clearly with a resistor value of 500 kOhms as shown above in Figure 7.
+In addition we can see that as the load increased the peak-to- peak voltage also decreased.
+
+## R2R DAC
+![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/Resistor%20circuit.JPG)
+**Figure 8: ** R2R DAC Circuit Schematic
+
+An R2R DAC circuit was designed to convert the digital output from the MSP430 to an
+analog DC voltage signal.
+The R2R DAC works by splitting the incoming voltage by a power of 2. The resistor that
+is farthest from the output will be controlled by the least significant bit, and vice versa for the
+resistor that is closest corresponding to the most significant bit. Each resistor contributes the total
+voltage divided by 2 to the power of whatever bits place the resistor represents. Our input of
+01101100 should be 108/256 of the total voltage, (4/256+8/256+32/256+64/256 = 108/256).
+Therefore with a 3.3V input our theoretical value with that number input would be 1.392 V. 
+Our result of 1.457 V is relatively close
