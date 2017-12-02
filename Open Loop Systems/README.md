@@ -16,9 +16,10 @@ adc_value = ((ADC12MEM0*3.35)/4096)*100; // converts to temp value
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Open_Loop_Systems/Second%20Pic.jpg)
 **Figure 2:** The circuit with the red wire being powered by 20 Volts and the blue wire going into Pin 1.3 of our ADC.
 
-### System Modeling
+## System Modeling
 The temperature of the voltage regulator was recorded at ranging pwm signals. The table and graph of this may be seen below.
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Open_Loop_Systems/temp%20vs%20duty%20chart.JPG)
+
 We were able to model a system of equations from this table in order to maintain a given temperature of the voltage regulator, by using different PWM signals to power the fan. Below is the function of our code which determines what PWM to set the fan to in order to maintain a certain temperature. 
 
 ```c
