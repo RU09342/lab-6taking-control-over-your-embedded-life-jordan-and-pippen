@@ -2,30 +2,33 @@
 ## Mathew Philippou and Michael Lonetto
 
 ## PWM Part 2
-![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/Precision%20Control%2C%20simple%20circuit.JPG)
+![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/LowPassFilter.JPG)
 
-**Figure 1:** Schematic of Low Pass Filter Circuit Built on Breadboard
+**Figure 1:** Schematic of Integrator Circuit Built on Breadboard
 
 ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/square1.png)
 
-**Figure 2:** PWM signal Going Through LPF
+**Figure 2:** PWM signal Going Through Integrator
 
 ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/10khz%20tri1.png)
 
-**Figure 3:** 10 kHz Square Wave Throguh LPF
+**Figure 3:** 10 kHz Square Wave Throguh Integrator
 
 ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/40khz%20tri1.png)
 
-**Figure 4:** 20 kHz Square Wave Throguh LPF
+**Figure 4:** 20 kHz Square Wave Throguh Integrator
 
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/100%20load1.png)
 
-**Figure 5:** 60 kHz Square Wave Throguh LPF
+**Figure 5:** 60 kHz Square Wave Throguh Integrator
 
-We built an integrator circuit using a simple op amp as constructed in Figure 1. We input a PWM
-square wave from the MSP430, as shown in Figure 2 above, which should output a triangle wave
-once the signal passed through the integrator. The triangle wave outputs can be seen in their
-corresponding figures above, with different input frequencies such as 10K, 20K, 40K, and 60K.
+As seen in Figure 1, an Integrator circuit was built. A square wave outputted by the PWM of the MSP430 would
+pass through this Integrator and would become a triangle wave at higher frequencies. A Integrator attenuagtes
+signals above certain frequency threshold. We expect the output of the Integrator to look something like this:
+![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/whattheyshouldlooklike.JPG)
+So, at low frequencies, the signal should remain a square wave and this can be seen in Figure 2. At medium frequencies,
+the signal should begin to attenuate higher frequencies and resemble dull spikes rather than squares. This can be seen in Figure 3.
+Finally, at higher frequenices the signal reduces in amplitude and fully attenuates higher frequencies and will resemble a triangle function. This can be seen in 5.
 
 ## Loading Effects
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/60khz%20tri.png)
@@ -36,9 +39,9 @@ corresponding figures above, with different input frequencies such as 10K, 20K, 
 
 **Figure 7:** 500 kohm Load
 
-We used the same circuit in Figure 1 to analyze the loading effect. However instead of using a PWM
-signal from the MSP430 we used the waveform generator. The input of the circuit was a 1V peak-to-
-peak square wave at a frequency of 40kHz. In addition we added a load to the output of our op amp to
+We used the same circuit in Figure 1 to analyze the loading effect by placing a resistor on the output. However instead of using a PWM
+signal from the MSP430, we used the waveform generator. The input of the circuit was a 1V peak-to-
+peak square wave at a frequency of 40kHz. In addition we added a load to the output of our Integrator to
 observe what would happen. We used loads of 100 Ohms and 500 kOhms.
 As we can see from Figure 6, with a 100 ohm load there is virtually no difference in the triangle
 signal, compared with the same signal and no load, seen in Figure 5. But as the load increased the signal began to turn
