@@ -3,19 +3,19 @@
 
 ## PWM Part 2
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/Precision%20Control%2C%20simple%20circuit.JPG)
-**Figure 1: ** Schematic of Low Pass Filter Circuit Built on Breadboard
+**Figure 1:** Schematic of Low Pass Filter Circuit Built on Breadboard
 
 ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/square1.png)
-**Figure 2: ** PWM signal Going Through LPF
+**Figure 2:** PWM signal Going Through LPF
 
 ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/10khz%20tri1.png)
-**Figure 3: ** 10 kHz Square Wave Throguh LPF
+**Figure 3:** 10 kHz Square Wave Throguh LPF
 
 ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/40khz%20tri1.png)
-**Figure 4: ** 20 kHz Square Wave Throguh LPF
+**Figure 4:** 20 kHz Square Wave Throguh LPF
 
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/100%20load1.png)
-**Figure 5: ** 60 kHz Square Wave Throguh LPF
+**Figure 5:** 60 kHz Square Wave Throguh LPF
 
 We built an integrator circuit using a simple op amp as constructed in Figure 1. We input a PWM
 square wave from the MSP430, as shown in Figure 2 above, which should output a triangle wave
@@ -24,10 +24,10 @@ corresponding figures above, with different input frequencies such as 10K, 20K, 
 
 ## Loading Effects
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/60khz%20tri.png)
-**Figure 6: ** 100 ohm Load 
+**Figure 6:** 100 ohm Load 
 
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/500k%20load2.png)
-**Figure 7: ** 500 kohm Load
+**Figure 7:** 500 kohm Load
 
 We used the same circuit in Figure 1 to analyze the loading effect. However instead of using a PWM
 signal from the MSP430 we used the waveform generator. The input of the circuit was a 1V peak-to-
@@ -40,7 +40,7 @@ In addition we can see that as the load increased the peak-to- peak voltage also
 
 ## R2R DAC
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/Resistor%20circuit.JPG)
-**Figure 8: ** R2R DAC Circuit Schematic
+**Figure 8:** R2R DAC Circuit Schematic
 
 An R2R DAC circuit was designed to convert the digital output from the MSP430 to an
 analog DC voltage signal.
