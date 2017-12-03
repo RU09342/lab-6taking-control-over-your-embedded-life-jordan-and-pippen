@@ -20,6 +20,7 @@ Therefore, if the gate voltage of the mosfet was attached to a PWM that switched
 
 **Figure 2:** Schematic of Mosfet Switching Circuit
 
+**Note :** The title of every photo is below the photo, I apoligize for the akward spacing
 
  ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/1Hz.png)
 
@@ -62,4 +63,8 @@ Due to the positive voltage on the gate terminal switching the mosfet *ON* and *
 **Figure 9:** Oscilloscope Probed on the Output of the Relay Circuit at low frequencies.
  ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Relay%20Switching/IMG-4950%20(2).PNG)
 
-**Figure :** Oscilloscope Probed on the Output of the Relay Circuit at high frequencies.
+**Figure 10:** Oscilloscope Probed on the Output of the Relay Circuit at high frequencies.
+
+## Possible NMOS and Relay Combined Circuit to Control Flywheel
+![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/Possible%20mosfet%20switching%20circuit.JPG)
+
