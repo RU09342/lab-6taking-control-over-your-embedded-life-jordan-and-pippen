@@ -1,6 +1,17 @@
 # Lab 6: Precision Control
 ## Mathew Philippou and Michael Lonetto
 
+## Code
+The only thing we needed the MSP430 to do was output a PWM signal for a square wave, and therefore, for any given board, the below code may be used with slight alterations.
+```c
+   TA0CCTL1 = OUTMOD_7;        
+    TA0CTL = TASSEL_2 + MC_1 +TACLR ;
+    TA0CCR0 = 1000;		   // Sets CCR0, Max Period
+    TA0CCR1 = 500;                        // Sets CCR1 and therefore Duty Cycle at 50% (square wave)
+    P1SEL0 |= BIT0;                         // TA0CCR1 output to P1.0
+    P1SEL1 &= ~BIT0;                    // Configure P1.0 as select bit
+```
+
 ## PWM Part 2
 ![alt text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/Precision%20Control/LowPassFilter.JPG)
 

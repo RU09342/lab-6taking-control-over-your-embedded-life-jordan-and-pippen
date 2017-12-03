@@ -3,7 +3,18 @@
 In real world applications that require “high power”, the MSP430’s will not be capable of driving them directly and doing so would most likely result in damage to the boards. Instead, there are some interesting switching circuits using mosfets and relays that will allow us to drive loads that require high voltage or high current without worrying about damage to the boards.
 
 ## Switching
-Switching is a commonly used technique in circuit design where some external phenomena, whether it be change in voltage, current, resistance, heat, light, etc., causes the switch to either open or close. 
+Switching is a commonly used technique in circuit design where some external phenomena, whether it be change in voltage, current, resistance, heat, light, etc., causes the switch to either open or close.
+ 
+## Code
+The only thing we needed the MSP430 to do was output a PWM signal for a square wave, and therefore, for any given board, the below code may be used with slight alterations.
+```c
+   TA0CCTL1 = OUTMOD_7;        
+    TA0CTL = TASSEL_2 + MC_1 +TACLR ;
+    TA0CCR0 = 1000;		   // Sets CCR0, Max Period
+    TA0CCR1 = 500;                        // Sets CCR1 and therefore Duty Cycle at 50% (square wave)
+    P1SEL0 |= BIT0;                         // TA0CCR1 output to P1.0
+    P1SEL1 &= ~BIT0;                    // Configure P1.0 as select bit
+```
 
 ## Mosfet Switch
 An n-channel mosfet may be configured to act as a switch. N-channel enhancement-mode mosfets operate using a positive input voltage and have near infinite impedance. This makes NMOS’s capable of interfacing with anything that can produce a positive output. A positive gate voltage will turn the switch “on” (closed switch) and a zero gate voltage will turn the switch “off” (open switch). To further explain, in order to keep the mosfet on (switch open) the gate voltage must exceed a certain threshold. This threshold can be determined from the v-I transfer curves seen in Figure 1. When Vin (gate voltage) is equal to or greater than VDD(drain voltage), the point A moves along the line. When this happens, the drain current increases to it’s maximum, RDS (on channel resistance) reduces to near zero, and the NMOS acts as a closed switch. 
