@@ -7,7 +7,7 @@ Switching is a commonly used technique in circuit design where some external phe
 
 ## Mosfet Switch
 An n-channel mosfet may be configured to act as a switch. N-channel enhancement-mode mosfets operate using a positive input voltage and have near infinite impedance. This makes NMOS’s capable of interfacing with anything that can produce a positive output. A positive gate voltage will turn the switch “on” (closed switch) and a zero gate voltage will turn the switch “off” (open switch). To further explain, in order to keep the mosfet on (switch open) the gate voltage must exceed a certain threshold. This threshold can be determined from the v-I transfer curves seen in Figure 1. When Vin (gate voltage) is equal to or greater than VDD(drain voltage), the point A moves along the line. When this happens, the drain current increases to it’s maximum, RDS (on channel resistance) reduces to near zero, and the NMOS acts as a closed switch. 
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/blah.gif)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/blah.gif)
 **Figure 1:** Mosfet Characteristics Curve
 
 When Vin (gate voltage) is less than VDD (drain voltage), the point A moves along the line towards B. When this happens, RDS (on channel resistance) goes very high, the drain current reduces to zero, and the NMOS acts as an open switch. 
@@ -15,26 +15,26 @@ When Vin (gate voltage) is less than VDD (drain voltage), the point A moves alon
 Therefore, if the gate voltage of the mosfet was attached to a PWM that switched from *ON* to *OFF*, the mosfet will act as a solid state switch. This effect was tested at ranging frequencies from 1 Hz, 100 kHz, 500 kHz, 3 MHz, and 10 MHz and the results may be seen in the Figures below. The circuit built for testing may be seen in Figure 2.
 
 
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/High_Power_Control_Mosfet_Tina_Schematic.JPG)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/High_Power_Control_Mosfet_Tina_Schematic.JPG)
 **Figure 2:** Schematic of Mosfet Switching Circuit
 
 
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/1Hz.png)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/1Hz.png)
 **Figure 3:** 1 Hz Square Wave
 
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/100KHz1.png)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/100KHz1.png)
 **Figure 4:** 100 kHz Square Wave
 
 
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/500KHz2.png)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/500KHz2.png)
 **Figure 5:** 500 kHz Square Wave
 
 
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/3MHz3.png)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/3MHz3.png)
 **Figure 6:** 3 MHz Square Wave
 
 
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/10MHz4.png)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Mosfet%20Switching/10MHz4.png)
 **Figure 7:** 10 MHz Square Wave
 
 ## Possible Mosfet Switching Circuit to Control Lamp
@@ -44,12 +44,12 @@ Therefore, if the gate voltage of the mosfet was attached to a PWM that switched
 
 ## Relay Switch
 Relays are electromechanical devices that use an electromagnet to operate a pair of movable contacts from an open position to a closed position.  As can be seen in Figure 8, the relay has a coil within it that has the advantage of requiring a small amount of power to operate. However, the relay, similar to the mosfet switching circuit, is capable of driving loads that require a large amount of power such as heaters, lamps or motors. Electro-mechanical relays come in a host of shapes, sizes, and internal circuit designs and have a wide variety of uses. Electrical relays can be used to control low power electronic or computer type circuits to switch high currents or voltages *ON* (closed switch) to *OFF* (open switch), however, a relay still needs some form of relay switch circuit to power it. While many kinds of these relay switch circuits exist, the one we will be focusing on today is the N-Channel mosfet relay switch circuit; a schematic of which may be seen in Figure 8.
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Relay%20Switching/High_Power_Control_Relay_Schematic.JPG)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Relay%20Switching/High_Power_Control_Relay_Schematic.JPG)
 **Figure 8:** Schematic of Relay Switching Circuit – Connected in Common-     Source Configuration.
 
 Mosfet relay switching and BJT relay switching are very similar aside from some key differences. Fist, mosfets, as opposed to BJT’s, are voltage operated devices, meaning as the gate is electrically isolated from the Drain – Source channel, the input impedances are high, so the gate current of the mosfet is zero. Further, as voltage is applied to the gate, the conductive channel (that is initially *OFF* (open switch)) gradually increases in conductive width. The mosfet *ENHANCES* the channel as the gate voltage increases, explaining why we are using an Enhancement NMOS.
 Due to the positive voltage on the gate terminal switching the mosfet *ON* and *OFF* it is ideal to use in combination with the relay in a switching circuit. Given an input voltage of zero, the value of VGS is not sufficient enough to increase the conductive channel width and the transistor is *OFF*. When VGS is increased above the mosfets lower threshold, VT, the conductive channel width increases and current flows allowing the relay coil to operate.  Below is the results of testing the circuit built in Figure 8.
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Relay%20Switching/IMG-4949%20(2).PNG)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Relay%20Switching/IMG-4949%20(2).PNG)
 **Figure 9:** Oscilloscope Probed on the Output of the Relay Circuit at low frequencies.
-![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Relay%20Switching/IMG-4950%20(2).PNG)
+ ![alt text]( https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-jordan-and-pippen/blob/master/Pictures/High_Power_Control/Relay%20Switching/IMG-4950%20(2).PNG)
 **Figure :** Oscilloscope Probed on the Output of the Relay Circuit at high frequencies.
