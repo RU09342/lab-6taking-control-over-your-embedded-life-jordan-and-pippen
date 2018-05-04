@@ -8,12 +8,152 @@ Switching is a commonly used technique in circuit design where some external phe
 ## Code
 The only thing we needed the MSP430 to do was output a PWM signal for a square wave, and therefore, for any given board, the below code may be used with slight alterations.
 ```c
-   TA0CCTL1 = OUTMOD_7;        
-    TA0CTL = TASSEL_2 + MC_1 +TACLR ;
-    TA0CCR0 = 1000;		   // Sets CCR0, Max Period
-    TA0CCR1 = 500;                        // Sets CCR1 and therefore Duty Cycle at 50% (square wave)
-    P1SEL0 |= BIT0;                         // TA0CCR1 output to P1.0
-    P1SEL1 &= ~BIT0;                    // Configure P1.0 as select bit
+   #include <msp430f5529.h>
+#include <stdint.h>
+#include "stdio.h"
+
+#define SERVO_STEPS         120     // Maximum amount of steps in degrees (180 is common)
+#define SERVO_MIN           500     // The minimum duty cycle for this servo
+#define SERVO_MAX           1950    // The maximum duty cycle
+#define SERVO_MID           1225    // No movement
+/**
+ * main.c
+ */
+        unsigned int adc1; //Assign variables for ADC values
+        unsigned int adc2;
+        unsigned int adc3;
+        unsigned int adc4;
+
+
+void ConfigServoPWM(void);
+
+void initializeADC12(void);
+ int main(void) {
+    WDTCTL = WDTPW | WDTHOLD; // Stop watchdog timer
+    initializeADC12();        // Initialize ADC function
+
+    ConfigServoPWM();
+    __bis_SR_register(GIE); // Enable Interrupt
+    __no_operation();       // For debugger
+           ADC12CTL0 |= ADC12ENC | ADC12SC; // Initialize ADC sampling
+
+}
+void ConfigServoPWM(void){
+    P1DIR |= BIT2; //Set P1.2 as output
+    P1SEL |= BIT2; //Set P1.2 to pulse width modulation
+    P1DIR |= BIT3; //Set P1.3 as output
+    P1SEL |= BIT3; //Set P1.3 to pulse width modulation
+    TA0CCTL1 |= OUTMOD_7; //Reset/Set
+    TA0CCTL2 |= OUTMOD_7; //Reset/Set
+    TA0CTL |= TASSEL_2 + MC_1; //SMCLK + Up Mode
+    TA0CCR0 |= 20900-1; // 20 millisecond
+
+   }
+
+/* ADC Interrupt*/
+    #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+    #pragma vector = ADC12_VECTOR
+    __interrupt void ADC12_ISR(void)
+    #elif defined(__GNUC__)
+    void __attribute__ ((interrupt(ADC12_VECTOR))) ADC12_ISR (void)
+    #else
+    #error Compiler not supported!
+    #endif
+      {
+        unsigned int servo_stepval, servo_stepnow;
+                unsigned int servo_lut[ SERVO_STEPS+1 ];
+                unsigned int i;
+        switch(__even_in_range(ADC12IV,32))
+        {
+        case ADC12IV_NONE:        break;    // Vector  0:  No interrupt
+        case ADC12IV_ADC12OVIFG:  break;    // Vector  2:  ADC12MEMx Overflow
+        case ADC12IV_ADC12TOVIFG: break;    // Vector  4:  Conversion time overflow
+        case ADC12IV_ADC12IFG0:             // Vector 12:  ADC12MEM0 Interrupt
+
+            adc1 = ADC12MEM0;
+        break;
+
+        case ADC12IV_ADC12IFG1:       // Vector 14:  ADC12MEM1
+
+            adc2 = ADC12MEM1;
+        break;
+
+        case ADC12IV_ADC12IFG2:      // Vector 16:  ADC12MEM2
+
+            adc3 = ADC12MEM2;
+        break;
+
+        case ADC12IV_ADC12IFG3:       // Vector 18:  ADC12MEM2
+        break;
+
+        case ADC12IV_ADC12IFG4:       // Vector 20:  ADC12MEM4
+
+            adc4 = ADC12MEM4;
+            __bic_SR_register_on_exit(LPM4_bits); // End sampling
+        break;
+
+        case ADC12IV_ADC12IFG5:   break;    // Vector 22:  ADC12MEM5
+        case ADC12IV_ADC12IFG6:   break;    // Vector 24:  ADC12MEM6
+        case ADC12IV_ADC12IFG7:   break;    // Vector 26:  ADC12MEM7
+        case ADC12IV_ADC12IFG8:   break;    // Vector 28:  ADC12MEM8
+        case ADC12IV_ADC12IFG9:   break;    // Vector 30:  ADC12MEM9
+        case ADC12IV_ADC12IFG10:  break;    // Vector 32:  ADC12MEM10
+        case ADC12IV_ADC12IFG11:  break;    // Vector 34:  ADC12MEM11
+        case ADC12IV_ADC12IFG12:  break;    // Vector 36:  ADC12MEM12
+        case ADC12IV_ADC12IFG13:  break;    // Vector 38:  ADC12MEM13
+        case ADC12IV_ADC12IFG14:  break;    // Vector 40:  ADC12MEM14
+        case ADC12IV_ADC12IFG15:  break;    // Vector 42:  ADC12MEM15
+
+
+        default:
+        break;
+
+     }
+
+        //no light detected
+        if(ADC12MEM0 < 0x0400 && ADC12MEM1 < 0x0460 && ADC12MEM5 < 0x0400){
+            TA0CCR1 = SERVO_MID;
+            TA0CCR2 = SERVO_MID;
+        }
+        //Move Structure Servo to 120 degrees
+        else if(ADC12MEM5 && ADC12MEM1 > ADC12MEM0){
+            TA0CCR1 = SERVO_MAX;
+        }
+        //Move Structure Servo to 0 degrees
+        else if(ADC12MEM5 && ADC12MEM1 < ADC12MEM0){
+            TA0CCR1 = SERVO_MIN;
+        }
+        //Move Structure Servo to 120 degrees and base servo to 0 degrees
+        else if(ADC12MEM1 && ADC12MEM0 > ADC12MEM5){
+            TA0CCR1 = SERVO_MIN;
+            TA0CCR2 = SERVO_MAX;
+        }
+        //Move Strucutre servo to 0 degrees and base servo to 120 degrees
+        else if(ADC12MEM1 && ADC12MEM0 < ADC12MEM5){
+            TA0CCR1 = SERVO_MAX;
+            TA0CCR2 = SERVO_MIN;
+        }
+
+
+     }
+
+    //ADC function
+    void initializeADC12(void)
+    {
+
+        ADC12CTL0 = ADC12ON+ADC12MSC+ADC12SHT0_8; // Turn on ADC12, extend sampling time
+        P6SEL = BIT0;                             // to avoid overflow of results
+        P6SEL = BIT1;
+        P6SEL = BIT5;
+        ADC12CTL1 = ADC12SHP+ADC12CONSEQ_3;       // Use sampling timer, repeated sequence
+        ADC12MCTL0 = ADC12INCH_0;                 // ref+=AVcc, channel = A0
+        ADC12MCTL1 = ADC12INCH_1;                 // ref+=AVcc, channel = A1
+        ADC12MCTL2 = ADC12INCH_2;               // ref+=AVcc, channel = A2
+        ADC12MCTL5 = ADC12INCH_5+ADC12EOS;        // ref+=AVcc, channel = A3, end seq.
+        ADC12IE = 0x08;                           // Enable ADC12IFG.3
+        ADC12CTL0 |= ADC12ENC;                    // Enable conversions
+        ADC12CTL0 |= ADC12SC;                     // Start convn - software trigger
+    }
 ```
 
 ## Mosfet Switch
